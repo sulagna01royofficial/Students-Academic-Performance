@@ -1,0 +1,567 @@
+---
+title: "MDTS4214_737_PROJECT"
+author: "SULAGNA ROY"
+date: "2026-03-28"
+output: pdf_document
+---
+# The Data Set:
+```{r}
+data=read.csv("Students_Academic_Performance.csv")
+data=data[,2:ncol(data)]
+```
+
+# The Dimension of the Data Set:
+
+## No. of Students:
+```{r}
+n=nrow(data);n
+```
+## No. of Variables:
+```{r}
+p=ncol(data);p
+```
+## Knowing the variables:
+```{r}
+colnames(data)
+```
+```{r}
+attach(data)
+```
+
+```{r}
+table(gender)
+```
+```{r}
+table(grade_level)
+```
+```{r}
+table(ai_tools_used)
+```
+```{r}
+table(ai_usage_purpose)
+```
+```{r}
+table(ai_dependency_score)
+```
+```{r}
+table(ai_ethics_score)
+```
+```{r}
+table(concept_understanding_score)
+```
+```{r}
+table(study_consistency_index)
+```
+```{r}
+table(improvement_rate)
+```
+```{r}
+table(class_participation_score)
+```
+## Coding Of Categorical Variables:
+### 1.Gender
+```{r}
+gender
+```
+```{r}
+Gender=matrix(0,ncol=2,nrow=n)
+colnames(Gender)=c("F","M")
+for(i in 1:n)
+{
+  if(gender[i]=="Female")
+  {
+    Gender[i,]=c(1,0)
+  }else if(gender[i]=="Male")
+  {
+    Gender[i,]=c(1,1)
+  }else
+  {
+    Gender[i,]=c(0,0)
+  }
+}
+CD1=data.frame(gender,Gender);CD1
+```
+### 2.Grade_Level
+```{r}
+grade_level
+```
+```{r}
+Grade_Level=matrix(0,ncol=5,nrow=n)
+colnames(Grade_Level)=c("grade_level_11","grade_level_12","grade_level_13","grade_level_14","grade_level_15")
+for(i in 1:n)
+{
+  if(grade_level[i]=="10th")
+  {
+    Grade_Level[i,]=c(0,0,0,0,0)
+  }else
+  {
+    if(grade_level[i]=="11th")
+    {
+      Grade_Level[i,]=c(1,0,0,0,0)
+    }else
+    {
+      if(grade_level[i]=="12th")
+      {
+        Grade_Level[i,]=c(1,1,0,0,0)
+      }else if(grade_level[i]=="1st Year")
+      {
+        Grade_Level[i,]=c(1,1,1,0,0)
+      }else
+      {
+        if(grade_level[i]=="2nd Year")
+        {
+          Grade_Level[i,]=c(1,1,1,1,0)
+        }else
+        {
+          Grade_Level[i,]=c(1,1,1,1,1)
+        }
+      }
+    }
+  }
+}
+CD2=data.frame(grade_level,Grade_Level);CD2
+```
+### 3.AI tools Used
+```{r}
+ai_tools_used
+```
+
+
+```{r}
+AI_Tools_Used=matrix(0,ncol=5,nrow=n)
+colnames(AI_Tools_Used)=c("ai_tool_1", "ai_tool_2", "ai_tool_3", "ai_tool_4", "ai_tool_5")
+for(i in 1:n)
+{
+  if(ai_tools_used[i]=="ChatGPT")
+  {
+    AI_Tools_Used[i,]=c(0,0,0,0,0)
+  }else
+  {
+    if(ai_tools_used[i]=="ChatGPT+Gemini")
+    {
+      AI_Tools_Used[i,]=c(1,0,0,0,0)
+    }else
+    {
+      if(ai_tools_used[i]=="Claude")
+      {
+        AI_Tools_Used[i,]=c(1,1,0,0,0)
+      }else if(ai_tools_used[i]=="Copilot")
+      {
+        AI_Tools_Used[i,]=c(1,1,1,0,0)
+      }else
+      {
+        if(ai_tools_used[i]=="Gemini")
+        {
+          AI_Tools_Used[i,]=c(1,1,1,1,0)
+        }else
+        {
+          AI_Tools_Used[i,]=c(1,1,1,1,1)
+        }
+      }
+    }
+  }
+}
+CD3=data.frame(ai_tools_used,AI_Tools_Used);CD3
+```
+### 4.AI Usage Purpose
+```{r}
+ai_usage_purpose
+```
+
+```{r}
+AI_Usage_Purpose=matrix(0,ncol=5,nrow=n)
+colnames(AI_Usage_Purpose)=c("Code","Doubt","Exam","HW","Note")
+for(i in 1:n)
+{
+  if(ai_usage_purpose[i]=="None")
+  {
+    AI_Usage_Purpose[i,]=c(0,0,0,0,0)
+  }else
+  {
+    if(ai_usage_purpose[i]=="Coding")
+    {
+      AI_Usage_Purpose[i,]=c(1,0,0,0,0)
+    }else
+    {
+      if(ai_usage_purpose[i]=="Doubt Solving")
+      {
+        AI_Usage_Purpose[i,]=c(1,1,0,0,0)
+      }else if(ai_usage_purpose[i]=="Exam Prep")
+      {
+        AI_Usage_Purpose[i,]=c(1,1,1,0,0)
+      }else
+      {
+        if(ai_usage_purpose[i]=="Homework")
+        {
+          AI_Usage_Purpose[i,]=c(1,1,1,1,0)
+        }else
+        {
+          AI_Usage_Purpose[i,]=c(1,1,1,1,1)
+        }
+      }
+    }
+  }
+}
+CD4=data.frame(ai_usage_purpose,AI_Usage_Purpose);CD4
+```
+### 5.AI Dependency Score
+```{r}
+ai_dependency_score
+```
+```{r}
+AI_Dependency_Score=matrix(0,ncol=9,nrow=n)
+colnames(AI_Dependency_Score)=c("AIDS2","AIDS3","AIDS4","AIDS5","AIDS6","AIDS7","AIDS8","AIDS9","AIDS10")
+for(i in 1:n)
+{
+  if(ai_dependency_score[i]==1)
+  {
+    AI_Dependency_Score[i,]=c(0,0,0,0,0,0,0,0,0)
+  }else if(ai_dependency_score[i]!=1)
+  {
+    if(ai_dependency_score[i]==2)
+    {
+      AI_Dependency_Score[i,]=c(1,0,0,0,0,0,0,0,0)
+    }else if(ai_dependency_score[i]==3 | ai_dependency_score[i]==4 | ai_dependency_score[i]==5)
+    {
+      if(ai_dependency_score[i]==3)
+      {
+        AI_Dependency_Score[i,]=c(1,1,0,0,0,0,0,0,0)
+      }else if(ai_dependency_score[i]==4)
+      {
+        AI_Dependency_Score[i,]=c(1,1,1,0,0,0,0,0,0)
+      }else
+      {
+        AI_Dependency_Score[i,]=c(1,1,1,1,0,0,0,0,0)
+      }
+    }else if(ai_dependency_score[i]==6 | ai_dependency_score[i]==7 | ai_dependency_score[i]==8 | ai_dependency_score[i]==9)
+    {
+      if(ai_dependency_score[i]==6)
+      {
+        AI_Dependency_Score[i,]=c(1,1,1,1,1,0,0,0,0)
+      }else if(ai_dependency_score[i]==7)
+      {
+        AI_Dependency_Score[i,]=c(1,1,1,1,1,1,0,0,0)
+      }else
+      {
+        if(ai_dependency_score[i]==8)
+        {
+          AI_Dependency_Score[i,]=c(1,1,1,1,1,1,1,0,0)
+        }else
+        {
+          AI_Dependency_Score[i,]=c(1,1,1,1,1,1,1,1,0)
+        }
+      }
+    }else
+    {
+        AI_Dependency_Score[i,]=c(1,1,1,1,1,1,1,1,1)
+    }
+  }
+}
+CD5=data.frame(ai_dependency_score,AI_Dependency_Score);CD5
+```
+### 6.Score as per AI Ethics
+```{r}
+ai_ethics_score
+```
+```{r}
+AI_Ethics_Score=matrix(0,ncol=9,nrow=n)
+colnames(AI_Ethics_Score)=c("AIES2","AIES3","AIES4","AIES5","AIES6","AIES7","AIES8","AIES9","AIES10")
+for(i in 1:n)
+{
+  if(ai_ethics_score[i]==1)
+  {
+    AI_Ethics_Score[i,]=c(0,0,0,0,0,0,0,0,0)
+  }else if(ai_dependency_score[i]!=1)
+  {
+    if(ai_ethics_score[i]==2)
+    {
+      AI_Ethics_Score[i,]=c(1,0,0,0,0,0,0,0,0)
+    }else if(ai_ethics_score[i]==3 | ai_ethics_score[i]==4 | ai_ethics_score[i]==5)
+    {
+      if(ai_ethics_score[i]==3)
+      {
+        AI_Ethics_Score[i,]=c(1,1,0,0,0,0,0,0,0)
+      }else if(ai_ethics_score[i]==4)
+      {
+        AI_Ethics_Score[i,]=c(1,1,1,0,0,0,0,0,0)
+      }else
+      {
+        AI_Ethics_Score[i,]=c(1,1,1,1,0,0,0,0,0)
+      }
+    }else if(ai_ethics_score[i]==6 | ai_ethics_score[i]==7 | ai_ethics_score[i]==8 | ai_ethics_score[i]==9)
+    {
+      if(ai_ethics_score[i]==6)
+      {
+        AI_Ethics_Score[i,]=c(1,1,1,1,1,0,0,0,0)
+      }else if(ai_ethics_score[i]==7)
+      {
+        AI_Ethics_Score[i,]=c(1,1,1,1,1,1,0,0,0)
+      }else
+      {
+        if(ai_ethics_score[i]==8)
+        {
+          AI_Ethics_Score[i,]=c(1,1,1,1,1,1,1,0,0)
+        }else
+        {
+          AI_Ethics_Score[i,]=c(1,1,1,1,1,1,1,1,0)
+        }
+      }
+    }else
+    {
+        AI_Ethics_Score[i,]=c(1,1,1,1,1,1,1,1,1)
+    }
+  }
+}
+CD6=data.frame(ai_ethics_score,AI_Ethics_Score);CD6
+```
+### 7.Score as per Concept Understanding
+```{r}
+concept_understanding_score
+```
+```{r}
+Concept_Understanding_Score=matrix(0,ncol=9,nrow=n)
+colnames(Concept_Understanding_Score)=c("CU2","CU3","CU4","CU5","CU6","CU7","CU8","CU9","CU10")
+for(i in 1:n)
+{
+  if(concept_understanding_score[i]==1)
+  {
+    Concept_Understanding_Score[i,]=c(0,0,0,0,0,0,0,0,0)
+  }else if(concept_understanding_score[i]!=1)
+  {
+    if(concept_understanding_score[i]==2)
+    {
+      Concept_Understanding_Score[i,]=c(1,0,0,0,0,0,0,0,0)
+    }else if(concept_understanding_score[i]==3 | concept_understanding_score[i]==4 | concept_understanding_score[i]==5)
+    {
+      if(concept_understanding_score[i]==3)
+      {
+        Concept_Understanding_Score[i,]=c(1,1,0,0,0,0,0,0,0)
+      }else if(concept_understanding_score[i]==4)
+      {
+       Concept_Understanding_Score[i,]=c(1,1,1,0,0,0,0,0,0)
+      }else
+      {
+        Concept_Understanding_Score[i,]=c(1,1,1,1,0,0,0,0,0)
+      }
+    }else if(concept_understanding_score[i]==6 | concept_understanding_score[i]==7 | concept_understanding_score[i]==8 | concept_understanding_score[i]==9)
+    {
+      if(concept_understanding_score[i]==6)
+      {
+        Concept_Understanding_Score[i,]=c(1,1,1,1,1,0,0,0,0)
+      }else if(concept_understanding_score[i]==7)
+      {
+        Concept_Understanding_Score[i,]=c(1,1,1,1,1,1,0,0,0)
+      }else
+      {
+        if(concept_understanding_score[i]==8)
+        {
+          Concept_Understanding_Score[i,]=c(1,1,1,1,1,1,1,0,0)
+        }else
+        {
+          Concept_Understanding_Score[i,]=c(1,1,1,1,1,1,1,1,0)
+        }
+      }
+    }else
+    {
+       Concept_Understanding_Score[i,]=c(1,1,1,1,1,1,1,1,1)
+    }
+  }
+}
+CD7=data.frame(concept_understanding_score,Concept_Understanding_Score);CD7
+```
+
+
+### 8.Score as per Class Participation
+```{r}
+class_participation_score
+```
+```{r}
+Class_Participation_Score=matrix(0,ncol=9,nrow=n)
+colnames(Class_Participation_Score)=c("CPS2","CPS3","CPS4","CPS5","CPS6","CPS7","CPS8","CPS9","CPS10")
+for(i in 1:n)
+{
+  if(class_participation_score[i]==1)
+  {
+    Class_Participation_Score[i,]=c(0,0,0,0,0,0,0,0,0)
+  }else if(class_participation_score[i]!=1)
+  {
+    if(class_participation_score[i]==2)
+    {
+      Class_Participation_Score[i,]=c(1,0,0,0,0,0,0,0,0)
+    }else if(class_participation_score[i]==3 | class_participation_score[i]==4 | class_participation_score[i]==5)
+    {
+      if(class_participation_score[i]==3)
+      {
+        Class_Participation_Score[i,]=c(1,1,0,0,0,0,0,0,0)
+      }else if(class_participation_score[i]==4)
+      {
+       Class_Participation_Score[i,]=c(1,1,1,0,0,0,0,0,0)
+      }else
+      {
+        Class_Participation_Score[i,]=c(1,1,1,1,0,0,0,0,0)
+      }
+    }else if(class_participation_score[i]==6 | class_participation_score[i]==7 | class_participation_score[i]==8 | class_participation_score[i]==9)
+    {
+      if(class_participation_score[i]==6)
+      {
+        Class_Participation_Score[i,]=c(1,1,1,1,1,0,0,0,0)
+      }else if(class_participation_score[i]==7)
+      {
+        Class_Participation_Score[i,]=c(1,1,1,1,1,1,0,0,0)
+      }else
+      {
+        if(class_participation_score[i]==8)
+        {
+          Class_Participation_Score[i,]=c(1,1,1,1,1,1,1,0,0)
+        }else
+        {
+          Class_Participation_Score[i,]=c(1,1,1,1,1,1,1,1,0)
+        }
+      }
+    }else
+    {
+       Class_Participation_Score[i,]=c(1,1,1,1,1,1,1,1,1)
+    }
+  }
+}
+CD8=data.frame(class_participation_score,Class_Participation_Score);CD8
+```
+```{r}
+attach(data)
+```
+
+```{r}
+Data=data.frame(Gender,
+                Grade_Level,
+                AI_Tools_Used,
+                AI_Usage_Purpose,
+                AI_Dependency_Score,
+                AI_Ethics_Score,
+                Concept_Understanding_Score,
+                Class_Participation_Score,
+                age,
+                study_hours_per_day,
+                ai_usage_time_minutes,
+                ai_generated_content_percentage,
+                ai_prompts_per_week,
+                last_exam_score,
+                assignment_scores_avg,
+                attendance_percentage,
+                study_consistency_index,
+                improvement_rate,
+                sleep_hours,
+                social_media_hours,
+                tutoring_hours,
+                final_score,
+                passed);Data
+
+```
+
+```{r}
+hist(Data$final_score,col="yellow",freq=F,
+     main="Histogram of Percentage of Final Score",
+     xlab="Percentage of Final Score"
+     )
+```
+
+```{r}
+library(ggplot2)
+ggplot(Data, aes(x = passed)) +
+  geom_bar(aes(y = (..count..) / sum(..count..)),
+           fill = "darkblue") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(title = "Relative Frequency Distribution of Pass Status",
+       x = "Pass Status",
+       y = "Relative Frequency (%)")
+```
+
+
+
+```{r}
+id=1:8000
+n_train=0.8*8000;n_train
+n_test=0.2*8000;n_test
+set.seed(123)
+sample_id=sample(id,n_train,replace=F)
+training_data=Data[sample_id,]
+test_data=Data[-sample_id,]
+```
+```{r}
+ncol(test_data)
+```
+
+## Multiple Linear Regression:
+
+### Train_test_split:
+```{r}
+training_data_mlr=training_data[,-68]
+test_data_mlr=test_data[,-68]
+test_data_mlr
+```
+
+### Fitted mlr model using training data:
+```{r}
+mlr_train=lm(final_score~.,training_data_mlr)
+```
+
+```{r}
+AIC(mlr_train)
+```
+### Summary of fitted mlr model using training data:
+```{r}
+summary(mlr_train)
+library(stargazer)
+stargazer(mlr_train,type="text",out="f2.txt")
+```
+
+### MSE
+```{r}
+y_est_train_mlr=predict(mlr_train,training_data_mlr)
+y_est_test_mlr=predict(mlr_train,test_data_mlr)
+train_MSE_mlr=mean((training_data_mlr$final_score-y_est_train_mlr)^2);train_MSE_mlr
+test_MSE_mlr=mean((test_data_mlr$final_score-y_est_test_mlr)^2);test_MSE_mlr
+AIC(mlr_train)
+```
+
+## Logistic Regression:
+
+### Train_test_split
+```{r}
+training_data_lr=training_data[,-67]
+test_data_lr=test_data[,-67]
+test_data_lr
+```
+
+### Fitted Logistic Regression model using training data:
+```{r}
+lr_train=glm(passed~.,training_data_lr,family="binomial")
+```
+
+### Summary of the fitted Logistic Regression model using training data:
+```{r}
+summary(lr_train)
+library(stargazer)
+stargazer(lr_train,type="text",out="lr.txt")
+```
+
+```{r}
+prob_est_test=predict(lr_train, newdata = test_data_lr, type = "response")
+cut_point=0.5
+final_pred=ifelse(prob_est_test> cut_point, 1, 0)
+cm=table(Predicted = final_pred, Actual = test_data_lr$passed)
+cm
+TP=ifelse("1" %in% rownames(cm) & "1" %in% colnames(cm), cm["1","1"], 0)
+TN=ifelse("0" %in% rownames(cm) & "0" %in% colnames(cm), cm["0","0"], 0)
+FP=ifelse("1" %in% rownames(cm) & "0" %in% colnames(cm), cm["1","0"], 0)
+FN=ifelse("0" %in% rownames(cm) & "1" %in% colnames(cm), cm["0","1"], 0)
+TPR=ifelse((TP + FN) == 0, 0, TP / (TP + FN));TPR
+FPR=ifelse((FP + TN) == 0, 0, FP / (FP + TN));FPR 
+Precision=ifelse((TP + FP) == 0, 0, TP / (TP + FP));Precision
+Recall=TPR;Recall
+```
+```{r}
+ncol(training_data_lr)
+```
+
+
+
